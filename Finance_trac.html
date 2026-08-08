@@ -1,0 +1,1508 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Personal Finance Tracker</title>
+
+<style>
+
+/* =====================================================
+   GLOBAL
+===================================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+body {
+    background: #b3c0da;
+    color: #172033;
+    min-height: 100vh;
+}
+
+/* =====================================================
+   NAVBAR
+===================================================== */
+
+.navbar {
+    background: linear-gradient(135deg, #111827, #1e1b4b, #4f46e5);
+    color: rgb(233, 150, 215);
+    padding: 18px 7%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 5px 25px rgba(15, 23, 42, 0.18);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo-icon {
+    width: 45px;
+    height: 45px;
+    background: rgba(255,255,255,0.14);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 13px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 23px;
+}
+
+.logo h1 {
+    font-size: 21px;
+    font-weight: 700;
+}
+
+.nav-subtitle {
+    font-size: 13px;
+    color: #dbeafe;
+}
+
+/* =====================================================
+   MAIN CONTAINER
+===================================================== */
+
+.container {
+    width: 88%;
+    max-width: 1200px;
+    margin: 38px auto;
+}
+
+/* =====================================================
+   WELCOME
+===================================================== */
+
+.welcome {
+    margin-bottom: 28px;
+}
+
+.welcome h2 {
+    font-size: 30px;
+    font-weight: 750;
+    margin-bottom: 7px;
+    color: #111827;
+}
+
+.welcome p {
+    color: #64748b;
+    font-size: 15px;
+}
+
+/* =====================================================
+   SUMMARY CARDS
+===================================================== */
+
+.summary {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+    margin-bottom: 30px;
+}
+
+.summary-card {
+    position: relative;
+    overflow: hidden;
+
+    background: rgb(186, 198, 236);
+    border-radius: 20px;
+    padding: 25px;
+
+    border: 1px solid #f89aa7;
+
+    box-shadow:
+        0 8px 30px rgba(15, 23, 42, 0.07);
+
+    transition: 0.3s ease;
+}
+
+.summary-card:hover {
+    transform: translateY(-5px);
+
+    box-shadow:
+        0 15px 35px rgba(15, 23, 42, 0.11);
+}
+
+/* Decorative circle */
+
+.summary-card::after {
+    content: "";
+
+    position: absolute;
+
+    width: 120px;
+    height: 120px;
+
+    right: -45px;
+    top: -45px;
+
+    border-radius: 50%;
+
+    background: rgba(79,70,229,0.07);
+}
+
+.card-top {
+    position: relative;
+    z-index: 2;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.summary-card h3 {
+    color: #617796;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.summary-card h2 {
+    font-size: 29px;
+    font-weight: 750;
+}
+
+/* Card icons */
+
+.card-icon {
+    width: 48px;
+    height: 48px;
+
+    border-radius: 14px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 21px;
+}
+
+.income-icon {
+    background: #e6eee9;
+}
+
+.expense-icon {
+    background: #e6dede;
+}
+
+.balance-icon {
+    background: #cfd1d8;
+}
+
+/* Values */
+
+.income-value {
+    color: #16a34a;
+}
+
+.expense-value {
+    color: #dc2626;
+}
+
+.balance-value {
+    color: #4f46e5;
+}
+
+/* =====================================================
+   GENERAL SECTION CARD
+===================================================== */
+
+.section-card,
+.history-card {
+    background: white;
+    border-radius: 20px;
+    padding: 28px;
+
+    border: 1px solid #e8edf5;
+
+    box-shadow:
+        0 8px 30px rgba(15, 23, 42, 0.06);
+
+    margin-bottom: 28px;
+}
+
+/* =====================================================
+   SECTION HEADER
+===================================================== */
+
+.section-header,
+.history-title {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+.section-header {
+    margin-bottom: 25px;
+}
+
+.section-icon {
+    width: 46px;
+    height: 46px;
+
+    background: #ede9fe;
+    color: #6d28d9;
+
+    border-radius: 13px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 20px;
+}
+
+.section-header h2,
+.history-header h2 {
+    font-size: 20px;
+    color: #111827;
+}
+
+.section-header p {
+    font-size: 13px;
+    color: #64748b;
+    margin-top: 4px;
+}
+
+/* =====================================================
+   FORM
+===================================================== */
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 19px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-size: 13px;
+    font-weight: 650;
+    color: #334155;
+    margin-bottom: 8px;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+
+    padding: 13px 14px;
+
+    border: 1px solid #dce2eb;
+    border-radius: 11px;
+
+    outline: none;
+
+    background: #f8fafc;
+    color: #172033;
+
+    font-size: 14px;
+
+    transition: 0.2s;
+}
+
+.form-group input::placeholder {
+    color: #a0a9b8;
+}
+
+.form-group input:hover,
+.form-group select:hover {
+    border-color: #b8c1d1;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    background: white;
+
+    border-color: #6366f1;
+
+    box-shadow:
+        0 0 0 4px rgba(99,102,241,0.10);
+}
+
+.full-width {
+    grid-column: span 2;
+}
+
+/* =====================================================
+   ADD BUTTON
+===================================================== */
+
+.btn {
+    grid-column: span 2;
+
+    padding: 14px;
+
+    border: none;
+    border-radius: 11px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #4f46e5,
+            #7c3aed
+        );
+
+    color: white;
+
+    font-size: 15px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: 0.25s;
+
+    box-shadow:
+        0 7px 18px rgba(79,70,229,0.25);
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 11px 25px rgba(79,70,229,0.32);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+/* =====================================================
+   HISTORY HEADER
+===================================================== */
+
+.history-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 22px;
+}
+
+.history-title .section-icon {
+    background: #e0f2fe;
+    color: #0284c7;
+}
+
+.transaction-count {
+    background: #eef2ff;
+    color: #4f46e5;
+
+    padding: 8px 13px;
+
+    border-radius: 20px;
+
+    font-size: 12px;
+    font-weight: 700;
+}
+
+/* =====================================================
+   TABLE
+===================================================== */
+
+.table-container {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+
+    min-width: 720px;
+}
+
+th {
+    text-align: left;
+
+    padding: 14px 12px;
+
+    background: #f8fafc;
+
+    color: #64748b;
+
+    font-size: 11px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.7px;
+}
+
+th:first-child {
+    border-radius: 9px 0 0 9px;
+}
+
+th:last-child {
+    border-radius: 0 9px 9px 0;
+}
+
+td {
+    padding: 16px 12px;
+
+    border-bottom: 1px solid #edf1f6;
+
+    font-size: 14px;
+
+    color: #334155;
+}
+
+tbody tr {
+    transition: 0.2s;
+}
+
+tbody tr:hover {
+    background: #fafbff;
+}
+
+/* =====================================================
+   CATEGORY
+===================================================== */
+
+.category {
+    display: inline-flex;
+
+    padding: 6px 10px;
+
+    background: #f1f5f9;
+
+    color: #475569;
+
+    border-radius: 7px;
+
+    font-size: 12px;
+
+    font-weight: 650;
+}
+
+/* =====================================================
+   AMOUNTS
+===================================================== */
+
+.amount {
+    font-weight: 750;
+}
+
+.income-text {
+    color: #16a34a;
+}
+
+.expense-text {
+    color: #dc2626;
+}
+
+/* =====================================================
+   DELETE BUTTON
+===================================================== */
+
+.delete-btn {
+    border: none;
+
+    background: #fee2e2;
+    color: #dc2626;
+
+    padding: 7px 12px;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    font-size: 12px;
+    font-weight: 650;
+
+    transition: 0.2s;
+}
+
+.delete-btn:hover {
+    background: #fecaca;
+    transform: translateY(-1px);
+}
+
+/* =====================================================
+   EMPTY MESSAGE
+===================================================== */
+
+.empty-message {
+    text-align: center;
+
+    padding: 45px 20px;
+
+    color: #94a3b8;
+
+    display: none;
+}
+
+.empty-message-icon {
+    font-size: 35px;
+    margin-bottom: 8px;
+}
+
+.empty-message strong {
+    display: block;
+
+    color: #64748b;
+
+    font-size: 15px;
+
+    margin-bottom: 5px;
+}
+
+.empty-message span {
+    font-size: 13px;
+}
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+footer {
+    text-align: center;
+
+    padding: 25px 10px 35px;
+
+    color: #94a3b8;
+
+    font-size: 13px;
+}
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (max-width: 850px) {
+
+    .navbar {
+        padding: 16px 5%;
+    }
+
+    .nav-subtitle {
+        display: none;
+    }
+
+    .container {
+        width: 92%;
+        margin-top: 28px;
+    }
+
+    .welcome h2 {
+        font-size: 24px;
+    }
+
+    .summary {
+        grid-template-columns: 1fr;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .full-width,
+    .btn {
+        grid-column: span 1;
+    }
+
+    .section-card,
+    .history-card {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 500px) {
+
+    .logo h1 {
+        font-size: 18px;
+    }
+
+    .logo-icon {
+        width: 40px;
+        height: 40px;
+    }
+
+    .summary-card h2 {
+        font-size: 25px;
+    }
+
+    .history-header {
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .transaction-count {
+        white-space: nowrap;
+    }
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
+
+<nav class="navbar">
+
+    <div class="logo">
+
+        <div class="logo-icon">
+            💰
+        </div>
+
+        <h1>Finance Tracker</h1>
+
+    </div>
+
+    <div class="nav-subtitle">
+        Smart Personal Finance Management
+    </div>
+
+</nav>
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="container">
+
+
+    <!-- WELCOME -->
+
+    <section class="welcome">
+
+        <h2>
+            Financial Dashboard 👋
+        </h2>
+
+        <p>
+            Track your income, manage your expenses,
+            and understand your financial health.
+        </p>
+
+    </section>
+
+
+    <!-- =================================================
+         SUMMARY
+    ================================================== -->
+
+    <section class="summary">
+
+
+        <!-- TOTAL INCOME -->
+
+        <div class="summary-card">
+
+            <div class="card-top">
+
+                <div>
+
+                    <h3>
+                        Total Income
+                    </h3>
+
+                    <!-- Starts at ZERO -->
+
+                    <h2
+                        id="totalIncome"
+                        class="income-value">
+
+                        ₹0
+
+                    </h2>
+
+                </div>
+
+                <div class="card-icon income-icon">
+                    📈
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- TOTAL EXPENSE -->
+
+        <div class="summary-card">
+
+            <div class="card-top">
+
+                <div>
+
+                    <h3>
+                        Total Expenses
+                    </h3>
+
+                    <!-- Starts at ZERO -->
+
+                    <h2
+                        id="totalExpense"
+                        class="expense-value">
+
+                        ₹0
+
+                    </h2>
+
+                </div>
+
+                <div class="card-icon expense-icon">
+                    📉
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- BALANCE -->
+
+        <div class="summary-card">
+
+            <div class="card-top">
+
+                <div>
+
+                    <h3>
+                        Available Balance
+                    </h3>
+
+                    <!-- Starts at ZERO -->
+
+                    <h2
+                        id="balance"
+                        class="balance-value">
+
+                        ₹0
+
+                    </h2>
+
+                </div>
+
+                <div class="card-icon balance-icon">
+                    💳
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         ADD TRANSACTION
+    ================================================== -->
+
+    <section class="section-card">
+
+        <div class="section-header">
+
+            <div class="section-icon">
+                ➕
+            </div>
+
+            <div>
+
+                <h2>
+                    Add New Transaction
+                </h2>
+
+                <p>
+                    Record your income or expenses
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <form id="transactionForm">
+
+            <div class="form-grid">
+
+
+                <!-- TYPE -->
+
+                <div class="form-group">
+
+                    <label for="type">
+                        Transaction Type
+                    </label>
+
+                    <select id="type" required>
+
+                        <option value="">
+                            Select transaction type
+                        </option>
+
+                        <option value="income">
+                            💰 Income
+                        </option>
+
+                        <option value="expense">
+                            💸 Expense
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- CATEGORY -->
+
+                <div class="form-group">
+
+                    <label for="category">
+                        Category
+                    </label>
+
+                    <select id="category" required>
+
+                        <option value="">
+                            Select category
+                        </option>
+
+                        <option value="Salary">
+                            Salary
+                        </option>
+
+                        <option value="Food">
+                            Food
+                        </option>
+
+                        <option value="Travel">
+                            Travel
+                        </option>
+
+                        <option value="Shopping">
+                            Shopping
+                        </option>
+
+                        <option value="Bills">
+                            Bills
+                        </option>
+
+                        <option value="Education">
+                            Education
+                        </option>
+
+                        <option value="Entertainment">
+                            Entertainment
+                        </option>
+
+                        <option value="Health">
+                            Health
+                        </option>
+
+                        <option value="Other">
+                            Other
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- AMOUNT -->
+
+                <div class="form-group">
+
+                    <label for="amount">
+                        Amount (₹)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="amount"
+                        placeholder="Enter amount"
+                        min="1"
+                        step="0.01"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- DATE -->
+
+                <div class="form-group">
+
+                    <label for="date">
+                        Date
+                    </label>
+
+                    <input
+                        type="date"
+                        id="date"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- DESCRIPTION -->
+
+                <div class="form-group full-width">
+
+                    <label for="description">
+                        Description
+                    </label>
+
+                    <input
+                        type="text"
+                        id="description"
+                        placeholder="Example: Monthly salary, groceries, electricity bill..."
+                        maxlength="100"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- BUTTON -->
+
+                <button
+                    type="submit"
+                    class="btn">
+
+                    ➕ Add Transaction
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </section>
+
+
+    <!-- =================================================
+         TRANSACTION HISTORY
+    ================================================== -->
+
+    <section class="history-card">
+
+
+        <div class="history-header">
+
+
+            <div class="history-title">
+
+                <div class="section-icon">
+                    📋
+                </div>
+
+                <div>
+
+                    <h2>
+                        Transaction History
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="transaction-count"
+                id="transactionCount">
+
+                0 Transactions
+
+            </div>
+
+
+        </div>
+
+
+        <div class="table-container">
+
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Date
+                        </th>
+
+                        <th>
+                            Category
+                        </th>
+
+                        <th>
+                            Description
+                        </th>
+
+                        <th>
+                            Type
+                        </th>
+
+                        <th>
+                            Amount
+                        </th>
+
+                        <th>
+                            Action
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <!-- IMPORTANT:
+                     NO SAMPLE TRANSACTIONS
+                     TABLE STARTS EMPTY
+                -->
+
+                <tbody id="transactionList">
+                </tbody>
+
+            </table>
+
+
+            <!-- EMPTY STATE -->
+
+            <div
+                class="empty-message"
+                id="emptyMessage">
+
+                <div class="empty-message-icon">
+                    📭
+                </div>
+
+                <strong>
+                    No transactions yet
+                </strong>
+
+                <span>
+                    Add your first income or expense above.
+                </span>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer>
+
+    © 2026 Personal Finance Tracker
+
+    <br>
+
+    Built with HTML, CSS & JavaScript
+
+</footer>
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script>
+
+
+/* =====================================================
+   SET TODAY'S DATE
+===================================================== */
+
+function setTodayDate() {
+
+    const today =
+        new Date().toISOString().split("T")[0];
+
+    document.getElementById("date").value = today;
+}
+
+setTodayDate();
+
+
+/* =====================================================
+   CALCULATE TOTALS
+===================================================== */
+
+function calculateTotals() {
+
+    const rows =
+        document.querySelectorAll(
+            "#transactionList tr"
+        );
+
+    let income = 0;
+    let expense = 0;
+
+
+    rows.forEach(row => {
+
+        const amountCell =
+            row.querySelector(".amount");
+
+        if (!amountCell) {
+            return;
+        }
+
+
+        const amount =
+            Number(
+                amountCell.dataset.amount
+            );
+
+
+        if (
+            amountCell.classList.contains(
+                "income-text"
+            )
+        ) {
+
+            income += amount;
+
+        } else {
+
+            expense += amount;
+
+        }
+
+    });
+
+
+    const balance =
+        income - expense;
+
+
+    document.getElementById(
+        "totalIncome"
+    ).textContent =
+        "₹" + income.toLocaleString("en-IN");
+
+
+    document.getElementById(
+        "totalExpense"
+    ).textContent =
+        "₹" + expense.toLocaleString("en-IN");
+
+
+    document.getElementById(
+        "balance"
+    ).textContent =
+        "₹" + balance.toLocaleString("en-IN");
+
+
+    updateTransactionCount();
+
+}
+
+
+/* =====================================================
+   ADD TRANSACTION
+===================================================== */
+
+document.getElementById(
+    "transactionForm"
+).addEventListener(
+    "submit",
+    function(event) {
+
+        event.preventDefault();
+
+
+        const type =
+            document.getElementById(
+                "type"
+            ).value;
+
+
+        const category =
+            document.getElementById(
+                "category"
+            ).value;
+
+
+        const amount =
+            Number(
+                document.getElementById(
+                    "amount"
+                ).value
+            );
+
+
+        const description =
+            document.getElementById(
+                "description"
+            ).value.trim();
+
+
+        const date =
+            document.getElementById(
+                "date"
+            ).value;
+
+
+        /* Validation */
+
+        if (
+            !type ||
+            !category ||
+            !amount ||
+            amount <= 0 ||
+            !description ||
+            !date
+        ) {
+
+            alert(
+                "Please fill all fields correctly."
+            );
+
+            return;
+
+        }
+
+
+        const table =
+            document.getElementById(
+                "transactionList"
+            );
+
+
+        const row =
+            document.createElement("tr");
+
+
+        const formattedDate =
+            new Date(
+                date + "T00:00:00"
+            ).toLocaleDateString(
+                "en-IN"
+            );
+
+
+        const isIncome =
+            type === "income";
+
+
+        const typeClass =
+            isIncome
+                ? "income-text"
+                : "expense-text";
+
+
+        const amountText =
+            isIncome
+                ? "+ ₹" +
+                  amount.toLocaleString("en-IN")
+                : "- ₹" +
+                  amount.toLocaleString("en-IN");
+
+
+        /* Create row */
+
+        row.innerHTML = `
+
+            <td>
+                ${formattedDate}
+            </td>
+
+            <td>
+                <span class="category">
+                    ${escapeHTML(category)}
+                </span>
+            </td>
+
+            <td>
+                ${escapeHTML(description)}
+            </td>
+
+            <td>
+                <span class="${typeClass}">
+                    ${isIncome ? "Income" : "Expense"}
+                </span>
+            </td>
+
+            <td
+                class="amount ${typeClass}"
+                data-amount="${amount}">
+
+                ${amountText}
+
+            </td>
+
+            <td>
+
+                <button
+                    class="delete-btn"
+                    onclick="deleteTransaction(this)">
+
+                    Delete
+
+                </button>
+
+            </td>
+
+        `;
+
+
+        table.prepend(row);
+
+
+        /* Update dashboard */
+
+        calculateTotals();
+
+
+        /* Reset form */
+
+        document.getElementById(
+            "transactionForm"
+        ).reset();
+
+
+        setTodayDate();
+
+
+        alert(
+            "Transaction added successfully! ✓"
+        );
+
+    }
+);
+
+
+/* =====================================================
+   DELETE TRANSACTION
+===================================================== */
+
+function deleteTransaction(button) {
+
+    const confirmation =
+        confirm(
+            "Are you sure you want to delete this transaction?"
+        );
+
+
+    if (!confirmation) {
+        return;
+    }
+
+
+    const row =
+        button.closest("tr");
+
+
+    row.remove();
+
+
+    calculateTotals();
+
+}
+
+
+/* =====================================================
+   TRANSACTION COUNT
+===================================================== */
+
+function updateTransactionCount() {
+
+    const rows =
+        document.querySelectorAll(
+            "#transactionList tr"
+        );
+
+
+    const count =
+        rows.length;
+
+
+    document.getElementById(
+        "transactionCount"
+    ).textContent =
+        count +
+        (
+            count === 1
+                ? " Transaction"
+                : " Transactions"
+        );
+
+
+    const emptyMessage =
+        document.getElementById(
+            "emptyMessage"
+        );
+
+
+    emptyMessage.style.display =
+        count === 0
+            ? "block"
+            : "none";
+
+}
+
+
+/* =====================================================
+   SECURITY:
+   PREVENT HTML INJECTION FROM USER INPUT
+===================================================== */
+
+function escapeHTML(value) {
+
+    return value
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+/* =====================================================
+   INITIAL STATE
+===================================================== */
+
+/*
+    When the website is opened:
+
+    Total Income      = ₹0
+    Total Expenses    = ₹0
+    Available Balance = ₹0
+    Transactions      = 0
+
+    No sample transactions are loaded.
+*/
+
+calculateTotals();
+
+</script>
+
+</body>
+</html>
+```
+ 
